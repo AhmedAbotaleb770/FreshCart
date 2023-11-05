@@ -1,0 +1,63 @@
+<section class="pt-4">
+    <div class="row g-0">
+        <div class="col-md-9">
+            <owl-carousel-o [options]="mainSlideOptions">
+                <ng-template carouselSlide>
+                    <img height="400" src="./assets/images/images/slider-image-1.jpeg" alt="slide1">
+                </ng-template>  
+                <ng-template carouselSlide>
+                    <img height="400" src="./assets/images/images/slider-image-2.jpeg" alt="slide2">
+                </ng-template>  
+                <ng-template carouselSlide>
+                    <img height="400" src="./assets/images/images/slider-image-3.jpeg" alt="slide3">
+                </ng-template>  
+              </owl-carousel-o>
+        </div>
+        <div class="col-md-3">
+            <img height="200" class="w-100" src="./assets/images/images/slide-1.jpeg" alt="slide1">
+            <img height="200" class="w-100" src="./assets/images/images/slide-2.jpeg" alt="slide2">
+        </div>
+    </div>
+</section>
+
+<section class="py-4" *ngIf="categories.length > 0">
+    <h2 class="my-3">Shop Popular Categories</h2>
+
+    <owl-carousel-o [options]="categoryOptions">
+
+        <ng-container *ngFor="let category of categories">
+            <ng-template carouselSlide>
+                <img height="300" [src]="category.image" [alt]="category.name" [title]="category.name">
+                <h6 class="text-main my-2">{{category.name}}</h6>
+            </ng-template>
+        </ng-container>
+
+    </owl-carousel-o>
+</section>
+
+<section class="py-4" *ngIf="products.length > 0">
+    <h2 class="my-3 text-center">Popular Products</h2>
+    <input type="text" class="form-control w-50 mx-auto mb-3" placeholder="Search Product Name..." [(ngModel)]="term" />
+    <div class="row g-4">
+        <div *ngFor="let product of products | search : term | slice :0 :18 " class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="product h-100">
+                <i (click)="addFav(product._id)" class="fa-regular fa-heart heart text-danger" title="Add To WishList"></i>
+                <header role="button" [routerLink]="['/productdetails', product._id]">
+                    <img class="w-100 mb-2" [src]="product.imageCover" [title]="product.title" [alt]="product.title">
+                    <h6 class="text-main">{{product.category.name}}</h6>
+                    <h6>{{product.title | cuttext:3}}</h6>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="h6">{{product.price | currency: "EGP "}}</span>
+                        <span class="text-muted">
+                            <i class="fas fa-star rating-color"></i>
+                            {{product.ratingsAverage}}
+                        </span>
+                    </div>
+                </header>
+                <footer>
+                    <button (click)="addProduct(product._id , btnAdd)" #btnAdd class="main-btn w-100"> + Add To Cart</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+</section>
